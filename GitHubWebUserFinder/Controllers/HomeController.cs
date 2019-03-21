@@ -4,11 +4,14 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using GitHubWebUserFinder.Models;
+using GitHubWebUserFinder.Services;
 
 namespace GitHubWebUserFinder.Controllers
 {
 	public class HomeController : Controller
 	{
+		private readonly IGitHubSearchService _gitHubSearchService;
+
 		public ActionResult Index()
 		{
 			return View();
@@ -19,7 +22,7 @@ namespace GitHubWebUserFinder.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				return RedirectToAction("ShowResult", "Result", new { searchCriteria = userSearch.Criteria });
+				return RedirectToAction("GetResult", "Result", new { searchCriteria = userSearch.Criteria });
 			}
 
 			return View("Index", userSearch);
