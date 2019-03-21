@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using GitHubWebUserFinder;
 using GitHubWebUserFinder.Controllers;
+using GitHubWebUserFinder.Models;
 
 namespace GitHubWebUserFinder.Tests.Controllers
 {
@@ -13,7 +14,7 @@ namespace GitHubWebUserFinder.Tests.Controllers
 	public class HomeControllerTest
 	{
 		[TestMethod]
-		public void Index()
+		public void Index_WhenCalled_WillRender()
 		{
 			HomeController controller = new HomeController();
 
@@ -23,23 +24,35 @@ namespace GitHubWebUserFinder.Tests.Controllers
 		}
 
 		[TestMethod]
-		public void About()
+		public void When_Submitting_InvalidSearch_WillReturnViewAgain()
 		{
 			HomeController controller = new HomeController();
 
-			ViewResult result = controller.About() as ViewResult;
+			controller.ModelState.AddModelError("SessionName", "Required");
+			ViewResult result = controller.Search(new UserSearch()) as ViewResult;
 
-			Assert.AreEqual("Your application description page.", result.ViewBag.Message);
+			Assert.AreEqual(result.ViewName,"Index");
 		}
 
 		[TestMethod]
-		public void Contact()
+		public void When_Submitting_ValidSearch_ThenWeAreRedirected_ToResult()
 		{
 			HomeController controller = new HomeController();
 
-			ViewResult result = controller.Contact() as ViewResult;
+			RedirectToRouteResult result = controller.Search(new UserSearch()) as RedirectToRouteResult;
 
-			Assert.IsNotNull(result);
+			Assert.AreEqual(result.RouteValues["controller"],"Result");
+			Assert.AreEqual(result.RouteValues["action"], "ShowResult");
+		}
+
+		[TestMethod]
+		public void When_Submitting_ValidSearch_WeSendSearchCriteria_ToResult()
+		{
+			HomeController controller = new HomeController();
+
+			RedirectToRouteResult result = controller.Search(new UserSearch{Criteria = "Test"}) as RedirectToRouteResult;
+
+			Assert.AreEqual(result.RouteValues["searchCriteria"], "Test");
 		}
 	}
 }

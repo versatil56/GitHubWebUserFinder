@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using GitHubWebUserFinder.Models;
 
 namespace GitHubWebUserFinder.Controllers
 {
@@ -13,18 +14,15 @@ namespace GitHubWebUserFinder.Controllers
 			return View();
 		}
 
-		public ActionResult About()
+		[HttpPost]
+		public ActionResult Search(UserSearch userSearch)
 		{
-			ViewBag.Message = "Your application description page.";
+			if (ModelState.IsValid)
+			{
+				return RedirectToAction("ShowResult", "Result", new { searchCriteria = userSearch.Criteria });
+			}
 
-			return View();
-		}
-
-		public ActionResult Contact()
-		{
-			ViewBag.Message = "Your contact page.";
-
-			return View();
+			return View("Index", userSearch);
 		}
 	}
 }
