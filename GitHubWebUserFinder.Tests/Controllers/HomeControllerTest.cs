@@ -7,6 +7,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using GitHubWebUserFinder;
 using GitHubWebUserFinder.Controllers;
 using GitHubWebUserFinder.Models;
+using GitHubWebUserFinder.Services;
 
 namespace GitHubWebUserFinder.Tests.Controllers
 {
@@ -42,7 +43,7 @@ namespace GitHubWebUserFinder.Tests.Controllers
 			RedirectToRouteResult result = controller.Search(new UserSearch()) as RedirectToRouteResult;
 
 			Assert.AreEqual(result.RouteValues["controller"],"Result");
-			Assert.AreEqual(result.RouteValues["action"], "ShowResult");
+			Assert.AreEqual(result.RouteValues["action"], "GetResult");
 		}
 
 		[TestMethod]

@@ -7,6 +7,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using GitHubWebUserFinder;
 using GitHubWebUserFinder.Controllers;
 using GitHubWebUserFinder.Models;
+using GitHubWebUserFinder.Services;
+using System.Threading.Tasks;
 
 namespace GitHubWebUserFinder.Tests.Controllers
 {
@@ -14,13 +16,24 @@ namespace GitHubWebUserFinder.Tests.Controllers
 	public class ResultControllerTest
 	{
 		[TestMethod]
-		public void ShowResult_WhenCalled_WillReturn_ASearchResult()
+		public async Task ShowResult_WhenCalled_WillReturn_ASearchResult()
 		{
-			ResultController controller = new ResultController();
+			ResultController controller = new ResultController(new GitHubSearchService());
 
-			ViewResult result = (ViewResult)controller.ShowResult("test");
+			ViewResult result = (ViewResult)await controller.GetResult("test");
 
 			Assert.IsInstanceOfType(result.Model, typeof(SearchResult));
+		}
+
+		[TestMethod]
+		public async Task ShowResult_WhenCalled_WillContain_NameOfUser()
+		{
+			ResultController controller = new ResultController(new GitHubSearchService());
+
+			ViewResult result = (ViewResult)await controller.GetResult("My Test");
+			var user = (SearchResult) result.Model;
+
+			Assert.AreEqual(user.User.Name,"My Test");
 		}
 	}
 }
