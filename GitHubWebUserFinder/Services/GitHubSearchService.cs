@@ -15,7 +15,7 @@ namespace GitHubWebUserFinder.Services
 	{
 		public async Task<GitHubUser> FindUser(string name)
 		{
-			return  new GitHubUser {Name = name };
+			return  new GitHubUser {FullName = name };
 		}
 	}
 }

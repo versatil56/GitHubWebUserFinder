@@ -1,31 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Web.Mvc;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using GitHubWebUserFinder;
+﻿using System.Web.Mvc;
 using GitHubWebUserFinder.Controllers;
 using GitHubWebUserFinder.Models;
 using GitHubWebUserFinder.Services;
 using System.Threading.Tasks;
+using NUnit.Framework;
 
 namespace GitHubWebUserFinder.Tests.Controllers
 {
-	[TestClass]
+	[TestFixture]
 	public class ResultControllerTest
 	{
-		[TestMethod]
+		[Test]
 		public async Task ShowResult_WhenCalled_WillReturn_ASearchResult()
 		{
 			ResultController controller = new ResultController(new GitHubSearchService());
 
 			ViewResult result = (ViewResult)await controller.GetResult("test");
 
-			Assert.IsInstanceOfType(result.Model, typeof(SearchResult));
+			Assert.AreEqual(result.Model.GetType(), typeof(SearchResult));
 		}
 
-		[TestMethod]
+		[Test]
 		public async Task ShowResult_WhenCalled_WillContain_NameOfUser()
 		{
 			ResultController controller = new ResultController(new GitHubSearchService());
@@ -33,7 +28,7 @@ namespace GitHubWebUserFinder.Tests.Controllers
 			ViewResult result = (ViewResult)await controller.GetResult("My Test");
 			var user = (SearchResult) result.Model;
 
-			Assert.AreEqual(user.User.Name,"My Test");
+			Assert.AreEqual(user.User.FullName, "My Test");
 		}
 	}
 }
