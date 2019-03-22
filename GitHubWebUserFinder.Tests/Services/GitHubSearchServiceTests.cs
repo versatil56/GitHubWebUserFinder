@@ -1,4 +1,6 @@
 ﻿using System.Threading.Tasks;
+using GitHubWebUserFinder.Connectors;
+using GitHubWebUserFinder.Models;
 using GitHubWebUserFinder.Services;
 using NUnit.Framework;
 
@@ -10,11 +12,12 @@ namespace GitHubWebUserFinder.Tests.Services
 		[Test]
 		public async Task AGitHubSearchService_WillReturnAGitHubUser_WhenSearching()
 		{
-			var service = new GitHubSearchService();
+			GitHubConnector connector = new GitHubConnector();
+			GitHubSearchService service = new GitHubSearchService(connector);
 
-			var result = await service.FindUser("test");
+			GitHubWebUserFinder.Models.GitHubUser result = await service.FindUser("test");
 
-			Assert.AreEqual(result.FullName, "test");
+			Assert.AreEqual(result.GetType(), typeof(GitHubUser));
 		}
 	}
 }
