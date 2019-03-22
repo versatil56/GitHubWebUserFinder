@@ -8,10 +8,6 @@ using GitHubWebUserFinder.Models;
 
 namespace GitHubWebUserFinder.Services
 {
-	public interface IGitHubSearchService
-	{
-		Task<GitHubUser> FindUser(string name);
-	}
 	public class GitHubSearchService : IGitHubSearchService
 	{
 		private readonly IGitHubConnector _connector;

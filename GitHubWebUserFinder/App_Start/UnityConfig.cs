@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Web.Mvc;
 using GitHubWebUserFinder.Connectors;
 using GitHubWebUserFinder.Services;
@@ -6,7 +7,8 @@ using Unity.Mvc5;
 
 namespace GitHubWebUserFinder
 {
-    public static class UnityConfig
+	[ExcludeFromCodeCoverage]
+	public static class UnityConfig
     {
         public static void RegisterComponents()
         {
