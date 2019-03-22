@@ -1,30 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Web.Mvc;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using GitHubWebUserFinder;
+﻿using System.Web.Mvc;
 using GitHubWebUserFinder.Controllers;
 using GitHubWebUserFinder.Models;
-using GitHubWebUserFinder.Services;
+using NUnit.Framework.Internal;
+using NUnit.Framework;
 
 namespace GitHubWebUserFinder.Tests.Controllers
 {
-	[TestClass]
+	[TestFixture]
 	public class HomeControllerTest
 	{
-		[TestMethod]
+		[Test]
 		public void Index_WhenCalled_WillRender()
 		{
 			HomeController controller = new HomeController();
 
 			ViewResult result = controller.Index() as ViewResult;
 
-			Assert.IsNotNull(result);
+			Assert.NotNull(result);
 		}
 
-		[TestMethod]
+		[Test]
 		public void When_Submitting_InvalidSearch_WillReturnViewAgain()
 		{
 			HomeController controller = new HomeController();
@@ -35,7 +30,7 @@ namespace GitHubWebUserFinder.Tests.Controllers
 			Assert.AreEqual(result.ViewName,"Index");
 		}
 
-		[TestMethod]
+		[Test]
 		public void When_Submitting_ValidSearch_ThenWeAreRedirected_ToResult()
 		{
 			HomeController controller = new HomeController();
@@ -46,7 +41,7 @@ namespace GitHubWebUserFinder.Tests.Controllers
 			Assert.AreEqual(result.RouteValues["action"], "GetResult");
 		}
 
-		[TestMethod]
+		[Test]
 		public void When_Submitting_ValidSearch_WeSendSearchCriteria_ToResult()
 		{
 			HomeController controller = new HomeController();
