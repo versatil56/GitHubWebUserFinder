@@ -9,6 +9,5 @@ namespace GitHubWebUserFinder.Models
 	public class SearchResult
 	{
 		public GitHubUser User { get; set; }
-		public string Name { get; set; }
 	}
 }
