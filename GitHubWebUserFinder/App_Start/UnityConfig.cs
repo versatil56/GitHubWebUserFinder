@@ -15,6 +15,7 @@ namespace GitHubWebUserFinder
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
             container.RegisterType<IGitHubSearchService, GitHubSearchService>();
             container.RegisterType<IGitHubConnector, GitHubConnector>();
-		}
+            container.RegisterType<IAppHttpClient, AppHttpClient>();
+        }
 	}
 }
