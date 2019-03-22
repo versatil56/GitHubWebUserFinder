@@ -15,9 +15,10 @@ namespace GitHubWebUserFinder.Tests.Controllers
 		[Test]
 		public async Task ShowResult_WhenCalled_WillReturn_ASearchResult()
 		{
-			GitHubConnector connector = new GitHubConnector();
-			ResultController controller = new ResultController(new GitHubSearchService(connector));
+			Mock<IGitHubConnector> connector = new Mock<IGitHubConnector>();
+			connector.Setup(c => c.FindUser(It.IsAny<string>())).Returns(Task.FromResult(new GitHubUser()));
 
+			ResultController controller = new ResultController(new GitHubSearchService(connector.Object));
 			ViewResult result = (ViewResult)await controller.GetResult("test");
 
 			Assert.AreEqual(result.Model.GetType(), typeof(SearchResult));
@@ -26,8 +27,8 @@ namespace GitHubWebUserFinder.Tests.Controllers
 		[Test]
 		public async Task ShowResult_WhenCalled_WillContain_NameOfUser()
 		{
-			var connector = new Mock<IGitHubConnector>();
-			var expectedResult = new GitHubUser
+			Mock<IGitHubConnector> connector = new Mock<IGitHubConnector>();
+			GitHubUser expectedResult = new GitHubUser
 			{
 				Alias = "My Test",
 				FullName = "Juan Antonio"
@@ -38,7 +39,7 @@ namespace GitHubWebUserFinder.Tests.Controllers
 			ResultController controller = new ResultController(new GitHubSearchService(connector.Object));
 
 			ViewResult result = (ViewResult)await controller.GetResult(expectedResult.Alias);
-			var user = (SearchResult) result.Model;
+			SearchResult user = (SearchResult) result.Model;
 
 			Assert.AreEqual(user.User.FullName, expectedResult.FullName);
 		}
