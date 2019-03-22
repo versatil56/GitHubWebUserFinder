@@ -17,6 +17,7 @@ namespace GitHubWebUserFinder.Controllers
 			_gitHubSearchService = searchService;
 		}
 
+		[Route("Result/Search/{searchCriteria}")]
 		public async Task<ActionResult> GetResult(string searchCriteria)
 		{
 			var result = await _gitHubSearchService.FindUser(searchCriteria);
