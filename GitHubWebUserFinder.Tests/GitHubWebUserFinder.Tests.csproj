@@ -117,6 +117,7 @@
     <Compile Include="Connectors\GitHubConnectorTests.cs" />
     <Compile Include="Controllers\ResultControllerTest.cs" />
     <Compile Include="Models\Generators.cs" />
+    <Compile Include="Models\GitHubRepositoryTests.cs" />
     <Compile Include="Models\GitHubUserTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\HomeControllerTest.cs" />

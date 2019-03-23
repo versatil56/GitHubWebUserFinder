@@ -10,8 +10,6 @@ namespace GitHubWebUserFinder.Controllers
 {
 	public class HomeController : Controller
 	{
-		private readonly IGitHubSearchService _gitHubSearchService;
-
 		public ActionResult Index()
 		{
 			return View();
