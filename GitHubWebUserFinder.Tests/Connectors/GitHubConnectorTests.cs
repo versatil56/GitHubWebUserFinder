@@ -1,10 +1,12 @@
-﻿using System.Net;
+﻿using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using FsCheck;
 using GitHubWebUserFinder.Connectors;
 using GitHubWebUserFinder.Models;
+using GitHubWebUserFinder.Tests.Models;
 using Moq;
-using Newtonsoft.Json;
 using NUnit.Framework;
 
 namespace GitHubWebUserFinder.Tests.Services
@@ -20,8 +22,15 @@ namespace GitHubWebUserFinder.Tests.Services
 				Content = new StringContent(@"{login:'test'}")
 			};
 
+			var expectedRepositoriesResponse = new HttpResponseMessage
+			{
+				Content = new StringContent("[]")
+			};
+
 			Mock<IAppHttpClient> appHttpClient = new Mock<IAppHttpClient>();
-			appHttpClient.Setup(c => c.Get(It.IsAny<string>())).ReturnsAsync(expectedResponseFromGitHub);
+			appHttpClient.SetupSequence(c => c.Get(It.IsAny<string>()))
+				.ReturnsAsync(expectedResponseFromGitHub)
+				.ReturnsAsync(expectedRepositoriesResponse);
 
 			GitHubConnector connector = new GitHubConnector(appHttpClient.Object);
 			GitHubUser result = await connector.FindUser("test");
@@ -32,30 +41,56 @@ namespace GitHubWebUserFinder.Tests.Services
 		[Test]
 		public async Task AGitHubConnector_WillReturnAGitHubUser_WhenSearchingSuccessfully()
 		{
-			var expectedUser = @"{  
-					login:'robconery',
-					avatar_url:'https://avatars0.githubusercontent.com/u/78586?v=4',
-					gravatar_id:'',
-					name:'Rob Conery',
-					company:'BigMachine',
-					location:'Honolulu, HI'
-				}";
-
-			var expectedResult = JsonConvert.DeserializeObject<GitHubUser>(expectedUser);
-
+			var expectedUser = Generators.GitHubUser.Sample(50, 1).First();
 			var expectedResponseFromGitHub = new HttpResponseMessage
 			{
 				StatusCode = HttpStatusCode.OK,
-				Content = new StringContent(expectedUser)
+				Content = new StringContent(expectedUser.ToString())
+			};
+
+			var expectedRepositoriesResponse = new HttpResponseMessage
+			{
+				StatusCode = HttpStatusCode.OK,
+				Content = new StringContent("[]")
 			};
 
 			Mock<IAppHttpClient> appHttpClient = new Mock<IAppHttpClient>();
-			appHttpClient.Setup(c => c.Get(It.IsAny<string>())).ReturnsAsync(expectedResponseFromGitHub);
+			appHttpClient.SetupSequence(c => c.Get(It.IsAny<string>()))
+				.ReturnsAsync(expectedResponseFromGitHub)
+				.ReturnsAsync(expectedRepositoriesResponse);
 
 			GitHubConnector connector = new GitHubConnector(appHttpClient.Object);
 			GitHubUser result = await connector.FindUser("test");
 
-			Assert.AreEqual(result.FullName, expectedResult.FullName);
+			Assert.AreEqual(result.FullName, expectedUser.GetValue("name").ToString());
+		}
+
+		[Test]
+		public async Task AGitHubConnector_WillReturnAGitHubUsersRepositories_WhenSearchingSuccessfullyForUser_AndThereIsReposAvailable()
+		{
+			var expectedResponseFromGitHub = new HttpResponseMessage
+			{
+				StatusCode = HttpStatusCode.OK,
+				Content = new StringContent(@"{login:'test'}")
+			};
+
+			var expectedRepositories = Generators.GitHubRepositories.Sample(50,1).First();
+
+			var expectedRepositoriesResponse = new HttpResponseMessage
+			{
+				StatusCode = HttpStatusCode.OK,
+				Content = new StringContent(expectedRepositories.ToString())
+			};
+
+			Mock<IAppHttpClient> appHttpClient = new Mock<IAppHttpClient>();
+			appHttpClient.SetupSequence(c => c.Get(It.IsAny<string>()))
+				.ReturnsAsync(expectedResponseFromGitHub)
+				.ReturnsAsync(expectedRepositoriesResponse);
+
+			GitHubConnector connector = new GitHubConnector(appHttpClient.Object);
+			GitHubUser result = await connector.FindUser("test");
+
+			Assert.AreEqual(result.Repositories.Count, expectedRepositories.Count);
 		}
 	}
 }

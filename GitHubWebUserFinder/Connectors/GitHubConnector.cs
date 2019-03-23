@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using Newtonsoft.Json;
+using System.Net.Http;
 
 namespace GitHubWebUserFinder.Connectors
 {
@@ -18,12 +19,29 @@ namespace GitHubWebUserFinder.Connectors
 
 		public async Task<GitHubUser> FindUser(string criteria)
 		{
-			var uri = $"https://api.github.com/users/{criteria}";
-			var getCall = await _client.Get(uri);
+			string uri = $"https://api.github.com/users/{criteria}";
+
+			HttpResponseMessage getUserCall = await _client.Get(uri);
+
+			string rawUserResponse = await getUserCall.Content.ReadAsStringAsync();
+
+			GitHubUser user = JsonConvert.DeserializeObject<GitHubUser>(rawUserResponse);
+
+			List<GitHubRepository> repositories = await GetUserRepositories(criteria);
+
+			user.Repositories = repositories;
+
+			return user;
+		}
+
+		private async Task<List<GitHubRepository>> GetUserRepositories(string userName)
+		{
+			string uri = $"https://api.github.com/users/{userName}/repos";
+			HttpResponseMessage getCall = await _client.Get(uri);
 
 			string rawResponse = await getCall.Content.ReadAsStringAsync();
 
-			return JsonConvert.DeserializeObject<GitHubUser>(rawResponse);
+			return JsonConvert.DeserializeObject<List<GitHubRepository>>(rawResponse);
 		}
 	}
 }

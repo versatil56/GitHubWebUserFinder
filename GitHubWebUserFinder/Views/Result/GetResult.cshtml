@@ -11,5 +11,14 @@
 	@Model.User.Alias
 	@Model.User.CurrentLocation
 	@Model.User.AvatarUrl
+	
+	@{
+		foreach (var repository in Model.User.Repositories)
+		{
+			@repository.Name
+			@repository.NumberOfStarGazers
+			@repository.Url
+		}
+	}
 
 </div>
