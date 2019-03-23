@@ -115,6 +115,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Connectors\GitHubConnectorTests.cs" />
+    <Compile Include="Connectors\HttpClientFactoryTests.cs" />
     <Compile Include="Controllers\ResultControllerTest.cs" />
     <Compile Include="Models\Generators.cs" />
     <Compile Include="Models\GitHubRepositoryTests.cs" />

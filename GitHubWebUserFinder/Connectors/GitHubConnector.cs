@@ -19,7 +19,7 @@ namespace GitHubWebUserFinder.Connectors
 
 		public async Task<GitHubUser> FindUser(string criteria)
 		{
-			string uri = $"https://api.github.com/users/{criteria}";
+			string uri = $"/users/{criteria}";
 
 			HttpResponseMessage getUserCall = await _client.Get(uri);
 
@@ -36,7 +36,7 @@ namespace GitHubWebUserFinder.Connectors
 
 		private async Task<List<GitHubRepository>> GetUserRepositories(string userName)
 		{
-			string uri = $"https://api.github.com/users/{userName}/repos";
+			string uri = $"/users/{userName}/repos";
 			HttpResponseMessage getCall = await _client.Get(uri);
 
 			string rawResponse = await getCall.Content.ReadAsStringAsync();
