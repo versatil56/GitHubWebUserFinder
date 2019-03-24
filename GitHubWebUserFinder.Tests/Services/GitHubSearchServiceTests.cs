@@ -32,8 +32,8 @@ namespace GitHubWebUserFinder.Tests.Services
 		[Test]
 		public async Task AGitHubSearchService_WithSuccessfulSearch_WillReturnOnlyFiveOrLessRepositories()
 		{
-			var user = Generators.GitHubUser.Sample(50, 1).First();
-			var repos = Generators.GitHubRepositories.Sample(50, 1).First();
+			GitHubUser user = Generators.GitHubUser.Sample(50, 1).First();
+			List<GitHubRepository> repos = Generators.GitHubRepositories.Sample(50, 1).First();
 			user.Repositories = repos;
 
 			Mock<IGitHubConnector> connector = new Mock<IGitHubConnector>();
@@ -50,12 +50,12 @@ namespace GitHubWebUserFinder.Tests.Services
 		[Test]
 		public async Task GitHubSearchService_WithSuccessfulSearch_WillReturnRepositoriesSortedByStarGazeCount()
 		{
-			var user = Generators.GitHubUser.Sample(50, 1).First();
-			var repos = Generators.GitHubRepositories.Sample(50, 1).Single(c => c.Count > 5);
+			GitHubUser user = Generators.GitHubUser.Sample(50, 1).First();
+			List<GitHubRepository> repos = Generators.GitHubRepositories.Sample(50, 1).Single(c => c.Count > 5);
 			user.Repositories = repos;
 
-			var highestStarGaze = repos.OrderByDescending(c => c.NumberOfStarGazers).First();
-			var lowestStarGaze = repos.OrderByDescending(c => c.NumberOfStarGazers).Take(5).Last();
+			GitHubRepository highestStarGaze = repos.OrderByDescending(c => c.NumberOfStarGazers).First();
+			GitHubRepository lowestStarGaze = repos.OrderByDescending(c => c.NumberOfStarGazers).Take(5).Last();
 
 			Mock<IGitHubConnector> connector = new Mock<IGitHubConnector>();
 			connector.Setup(c => c.FindUser(It.IsAny<string>()))

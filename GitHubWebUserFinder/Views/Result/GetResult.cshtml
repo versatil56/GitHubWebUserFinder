@@ -14,6 +14,7 @@
 	</div>
 	<div class="col-md-8">
 		<h2>Repositories</h2>
+		@Model.User.NoRepositoriesMessage
 		@{
 			foreach (var repository in Model.User.Repositories)
 			{   <div class="col-sm-4" style="background-color: lightgray; margin: 2px;border-radius: 10px; padding: 2px;">

@@ -20,8 +20,8 @@ namespace GitHubWebUserFinder.Tests.Models
 			Prop.ForAll(Generators.JsonGitHubRepository.ToArbitrary(), json =>
 			{
 				dynamic user = json;
-				var expectedRepoName = user.name.ToString();
-				var result = JsonConvert.DeserializeObject<GitHubRepository>(json.ToString());
+				dynamic expectedRepoName = user.name.ToString();
+				GitHubRepository result = JsonConvert.DeserializeObject<GitHubRepository>(json.ToString());
 
 				Assert.AreEqual(expectedRepoName, result.Name);
 			}).QuickCheck();
@@ -33,8 +33,8 @@ namespace GitHubWebUserFinder.Tests.Models
 			Prop.ForAll(Generators.JsonGitHubRepository.ToArbitrary(), json =>
 			{
 				dynamic user = json;
-				var expectedRepoAddress = user.html_url.ToString();
-				var result = JsonConvert.DeserializeObject<GitHubRepository>(json.ToString());
+				dynamic expectedRepoAddress = user.html_url.ToString();
+				GitHubRepository result = JsonConvert.DeserializeObject<GitHubRepository>(json.ToString());
 
 				Assert.AreEqual(expectedRepoAddress, result.Url);
 			}).QuickCheck();
@@ -46,8 +46,8 @@ namespace GitHubWebUserFinder.Tests.Models
 			Prop.ForAll(Generators.JsonGitHubRepository.ToArbitrary(), json =>
 			{
 				dynamic user = json;
-				var expectedNumberOfStarGazers = Convert.ToInt16(user.stargazers_count);
-				var result = JsonConvert.DeserializeObject<GitHubRepository>(json.ToString());
+				dynamic expectedNumberOfStarGazers = Convert.ToInt16(user.stargazers_count);
+				GitHubRepository result = JsonConvert.DeserializeObject<GitHubRepository>(json.ToString());
 				Assert.AreEqual(expectedNumberOfStarGazers, result.NumberOfStarGazers);
 			}).QuickCheck();
 		}
@@ -57,7 +57,7 @@ namespace GitHubWebUserFinder.Tests.Models
 		{
 			Prop.ForAll(Generators.JsonGitHubRepositories.ToArbitrary(), json =>
 			{
-				var result = JsonConvert.DeserializeObject<List<GitHubRepository>>(json.ToString());
+				List<GitHubRepository> result = JsonConvert.DeserializeObject<List<GitHubRepository>>(json.ToString());
 				Assert.AreEqual(result.Count, json.Count);
 			}).QuickCheck();
 		}
