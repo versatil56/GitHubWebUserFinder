@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Web.Mvc;
 using GitHubWebUserFinder.Controllers;
 using GitHubWebUserFinder.Models;
@@ -44,6 +45,46 @@ namespace GitHubWebUserFinder.Tests.Controllers
 			SearchResult user = (SearchResult) result.Model;
 
 			Assert.AreEqual(user.User.FullName, expectedResult.FullName);
+		}
+
+		[Test]
+		public async Task ShowNotFound_WhenNotFoundExceptionIsRaised()
+		{
+			Mock<IGitHubConnector> connector = new Mock<IGitHubConnector>();
+
+			ResultController controller = new ResultController(new GitHubSearchService(connector.Object));
+
+			ExceptionContext exceptionContext = new ExceptionContext
+			{
+				Exception = new GitHubUserNotFoundException("error", new Exception())
+			};
+
+			((IExceptionFilter)controller).OnException(exceptionContext);
+
+			RedirectToRouteResult result = (RedirectToRouteResult) exceptionContext.Result;
+
+			Assert.That(result.RouteValues.ContainsValue("NotFound"));
+			Assert.That(result.RouteValues.ContainsValue("Result"));
+		}
+
+		[Test]
+		public async Task ShowNotAvailable_WhenSearchFunctionalityNotAvailableException()
+		{
+			Mock<IGitHubConnector> connector = new Mock<IGitHubConnector>();
+
+			ResultController controller = new ResultController(new GitHubSearchService(connector.Object));
+
+			ExceptionContext exceptionContext = new ExceptionContext
+			{
+				Exception = new SearchFunctionalityNotAvailableException("error", new Exception())
+			};
+
+			((IExceptionFilter)controller).OnException(exceptionContext);
+
+			RedirectToRouteResult result = (RedirectToRouteResult)exceptionContext.Result;
+
+			Assert.That(result.RouteValues.ContainsValue("NotAvailable"));
+			Assert.That(result.RouteValues.ContainsValue("Result"));
 		}
 	}
 }
