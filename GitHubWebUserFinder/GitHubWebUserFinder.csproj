@@ -156,9 +156,11 @@
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="Connectors\AppHttpClient.cs" />
     <Compile Include="Connectors\GitHubConnector.cs" />
+    <Compile Include="Exceptions\GitHubUserNotFoundException.cs" />
     <Compile Include="Connectors\HttpClientFactory.cs" />
     <Compile Include="Connectors\IAppHttpClient.cs" />
     <Compile Include="Connectors\IGitHubConnector.cs" />
+    <Compile Include="Exceptions\SearchFunctionalityNotAvailableException.cs" />
     <Compile Include="Controllers\ResultController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
