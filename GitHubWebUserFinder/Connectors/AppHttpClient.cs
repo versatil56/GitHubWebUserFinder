@@ -11,7 +11,7 @@ namespace GitHubWebUserFinder.Connectors
 
 		public AppHttpClient()
 		{
-			_httpClient = HttpClientFactory.HttpClient;
+			_httpClient = HttpClientFactory.GitHubHttpClient;
 		}
 
 		public async Task<HttpResponseMessage> Get(string url)

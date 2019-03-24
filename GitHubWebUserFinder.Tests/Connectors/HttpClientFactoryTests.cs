@@ -16,7 +16,7 @@ namespace GitHubWebUserFinder.Tests.Connectors
 		[Test]
 		public void AHttpClientFactory_CanGenerateAHttpClient()
 		{
-			var result = HttpClientFactory.HttpClient;
+			HttpClient result = HttpClientFactory.GitHubHttpClient;
 
 			Assert.AreEqual(typeof(HttpClient),result.GetType());
 		}
@@ -24,7 +24,7 @@ namespace GitHubWebUserFinder.Tests.Connectors
 		[Test]
 		public void AHttpClientFactory_WillGenerateAClient_WithTheRightUri()
 		{
-			var result = HttpClientFactory.HttpClient;
+			HttpClient result = HttpClientFactory.GitHubHttpClient;
 
 			Assert.AreEqual(result.BaseAddress.ToString(), "https://api.github.com/");
 		}
@@ -32,8 +32,8 @@ namespace GitHubWebUserFinder.Tests.Connectors
 		[Test]
 		public void AHttpClientFactory_WillGenerateAClient_WithUserAgentHeaders()
 		{
-			var client = HttpClientFactory.HttpClient;
-			var result = client.DefaultRequestHeaders.GetValues("user-agent").ToArray();
+			HttpClient client = HttpClientFactory.GitHubHttpClient;
+			string[] result = client.DefaultRequestHeaders.GetValues("user-agent").ToArray();
 
 			Assert.AreEqual(result[0], "Mozilla/4.0");
 			Assert.AreEqual(result[1], "(compatible; MSIE 6.0; Windows NT 5.2; .NET CLR 1.0.3705;)");
@@ -42,8 +42,8 @@ namespace GitHubWebUserFinder.Tests.Connectors
 		[Test]
 		public void AHttpClientFactory_WillGenerateAClient_WithRightContentType()
 		{
-			var client = HttpClientFactory.HttpClient;
-			var result = client.DefaultRequestHeaders.Accept.ToString();
+			HttpClient client = HttpClientFactory.GitHubHttpClient;
+			string result = client.DefaultRequestHeaders.Accept.ToString();
 
 			Assert.AreEqual(result, "application/json");
 		}

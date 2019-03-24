@@ -1,8 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using GitHubWebUserFinder.Connectors;
 using GitHubWebUserFinder.Models;
 using GitHubWebUserFinder.Services;
+using Microsoft.Ajax.Utilities;
 
 namespace GitHubWebUserFinder.Controllers
 {
@@ -17,8 +19,26 @@ namespace GitHubWebUserFinder.Controllers
 		[Route("Result/Search/{searchCriteria}")]
 		public async Task<ActionResult> GetResult(string searchCriteria)
 		{
-			var result = await _gitHubSearchService.FindUser(searchCriteria);
-			return View(new SearchResult { User = result });
+			GitHubUser result = await _gitHubSearchService.FindUser(searchCriteria);
+
+			var viewModel = InitialiseViewModel(result);
+
+			return View(viewModel);
+		}
+
+		private static SearchResult InitialiseViewModel(GitHubUser result)
+		{
+			if (result.CurrentLocation.IsNullOrWhiteSpace())
+				result.CurrentLocation = "N/A";
+
+			if (result.Repositories.Count() == 0)
+				result.NoRepositoriesMessage = "It looks like this user has no repositories";
+
+			SearchResult viewModel = new SearchResult
+			{
+				User = result
+			};
+			return viewModel;
 		}
 
 

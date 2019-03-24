@@ -6,7 +6,7 @@ namespace GitHubWebUserFinder.Connectors
 {
 	public static class HttpClientFactory
 	{
-		public static Func<HttpClient> ClientFactory = () => {
+		public static Func<HttpClient> GitHubClientFactory = () => {
 			var client = new HttpClient
 			{
 				BaseAddress = new Uri("https://api.github.com/")
@@ -18,11 +18,11 @@ namespace GitHubWebUserFinder.Connectors
 			return client;
 		};
 
-		private static Lazy<HttpClient> _client = new Lazy<HttpClient>(ClientFactory);
+		private static Lazy<HttpClient> _gitHubClient = new Lazy<HttpClient>(GitHubClientFactory);
 
-		public static HttpClient HttpClient
+		public static HttpClient GitHubHttpClient
 		{
-			get { return _client.Value; }
+			get { return _gitHubClient.Value; }
 		}
 	}
 }

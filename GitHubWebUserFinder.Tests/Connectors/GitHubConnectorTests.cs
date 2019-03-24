@@ -19,12 +19,12 @@ namespace GitHubWebUserFinder.Tests.Services
 		[Test]
 		public async Task AGitHubConnector_WillReturnAGitHubUser_WhenSearching()
 		{
-			var expectedResponseFromGitHub = new HttpResponseMessage
+			HttpResponseMessage expectedResponseFromGitHub = new HttpResponseMessage
 			{
 				Content = new StringContent(@"{login:'test'}")
 			};
 
-			var expectedRepositoriesResponse = new HttpResponseMessage
+			HttpResponseMessage expectedRepositoriesResponse = new HttpResponseMessage
 			{
 				Content = new StringContent("[]")
 			};
@@ -43,14 +43,14 @@ namespace GitHubWebUserFinder.Tests.Services
 		[Test]
 		public async Task AGitHubConnector_WillReturnAGitHubUser_WhenSearchingSuccessfully()
 		{
-			var expectedUser = Generators.JsonGitHubUser.Sample(50, 1).First();
-			var expectedResponseFromGitHub = new HttpResponseMessage
+			Newtonsoft.Json.Linq.JObject expectedUser = Generators.JsonGitHubUser.Sample(50, 1).First();
+			HttpResponseMessage expectedResponseFromGitHub = new HttpResponseMessage
 			{
 				StatusCode = HttpStatusCode.OK,
 				Content = new StringContent(expectedUser.ToString())
 			};
 
-			var expectedRepositoriesResponse = new HttpResponseMessage
+			HttpResponseMessage expectedRepositoriesResponse = new HttpResponseMessage
 			{
 				StatusCode = HttpStatusCode.OK,
 				Content = new StringContent("[]")
@@ -70,15 +70,15 @@ namespace GitHubWebUserFinder.Tests.Services
 		[Test]
 		public async Task AGitHubConnector_WillReturnAGitHubUsersRepositories_WhenSearchingSuccessfullyForUser_AndThereIsReposAvailable()
 		{
-			var expectedResponseFromGitHub = new HttpResponseMessage
+			HttpResponseMessage expectedResponseFromGitHub = new HttpResponseMessage
 			{
 				StatusCode = HttpStatusCode.OK,
 				Content = new StringContent(@"{login:'test'}")
 			};
 
-			var expectedRepositories = Generators.JsonGitHubRepositories.Sample(50,1).First();
+			Newtonsoft.Json.Linq.JArray expectedRepositories = Generators.JsonGitHubRepositories.Sample(50,1).First();
 
-			var expectedRepositoriesResponse = new HttpResponseMessage
+			HttpResponseMessage expectedRepositoriesResponse = new HttpResponseMessage
 			{
 				StatusCode = HttpStatusCode.OK,
 				Content = new StringContent(expectedRepositories.ToString())
@@ -98,7 +98,7 @@ namespace GitHubWebUserFinder.Tests.Services
 		[Test]
 		public async Task AGitHubConnector_WillThrowA404Exception_IfUserDoesNotExist()
 		{
-			var expectedResponseFromGitHub = new HttpResponseMessage
+			HttpResponseMessage expectedResponseFromGitHub = new HttpResponseMessage
 			{
 				StatusCode = HttpStatusCode.NotFound,
 				Content = new StringContent(@"User has not been found")
@@ -117,7 +117,7 @@ namespace GitHubWebUserFinder.Tests.Services
 		[Test]
 		public async Task AGitHubConnector_WillThrowServiceUnavailableException_IfGitHubIsNotAvailable()
 		{
-			var expectedResponseFromGitHub = new HttpResponseMessage
+			HttpResponseMessage expectedResponseFromGitHub = new HttpResponseMessage
 			{
 				StatusCode = HttpStatusCode.ServiceUnavailable,
 				Content = new StringContent(@"Git is not ready at the moment")
@@ -136,7 +136,7 @@ namespace GitHubWebUserFinder.Tests.Services
 		[Test]
 		public async Task AGitHubConnector_WhenThrowingUnrecognizedException_WillBubbleUpHttpRequestException()
 		{
-			var expectedResponseFromGitHub = new HttpResponseMessage
+			HttpResponseMessage expectedResponseFromGitHub = new HttpResponseMessage
 			{
 				StatusCode = HttpStatusCode.UpgradeRequired,
 				Content = new StringContent(@"We have a problem")
@@ -156,15 +156,15 @@ namespace GitHubWebUserFinder.Tests.Services
 		public async Task
 			AGitHubConnector_WhenFetchingUsersRepositories_IfNotSuccess_ThenConsiderTheWholeTransactionAsFailed_AndThrowExceptionAccordingly()
 		{
-			var expectedResponseFromGitHub = new HttpResponseMessage
+			HttpResponseMessage expectedResponseFromGitHub = new HttpResponseMessage
 			{
 				StatusCode = HttpStatusCode.OK,
 				Content = new StringContent(@"{login:'test'}")
 			};
 
-			var expectedRepositories = Generators.JsonGitHubRepositories.Sample(50, 1).First();
+			Newtonsoft.Json.Linq.JArray expectedRepositories = Generators.JsonGitHubRepositories.Sample(50, 1).First();
 
-			var expectedRepositoriesResponse = new HttpResponseMessage
+			HttpResponseMessage expectedRepositoriesResponse = new HttpResponseMessage
 			{
 				StatusCode = HttpStatusCode.UpgradeRequired,
 				Content = new StringContent(@"We have a problem")

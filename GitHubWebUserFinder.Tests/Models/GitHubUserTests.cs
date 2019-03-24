@@ -15,8 +15,8 @@ namespace GitHubWebUserFinder.Tests.Models
 			Prop.ForAll(Generators.JsonGitHubUser.ToArbitrary(), json =>
 			{
 				dynamic user = json;
-				var expectedFullName = user.name.ToString();
-				var result = JsonConvert.DeserializeObject<GitHubUser>(json.ToString());
+				dynamic expectedFullName = user.name.ToString();
+				GitHubUser result = JsonConvert.DeserializeObject<GitHubUser>(json.ToString());
 
 				Assert.AreEqual(expectedFullName, result.FullName);
 			}).QuickCheck();
@@ -28,8 +28,8 @@ namespace GitHubWebUserFinder.Tests.Models
 			Prop.ForAll(Generators.JsonGitHubUser.ToArbitrary(), json =>
 			{
 				dynamic user = json;
-				var expectedLocation = user.location.ToString();
-				var result = JsonConvert.DeserializeObject<GitHubUser>(json.ToString());
+				dynamic expectedLocation = user.location.ToString();
+				GitHubUser result = JsonConvert.DeserializeObject<GitHubUser>(json.ToString());
 
 				Assert.AreEqual(expectedLocation, result.CurrentLocation);
 			}).QuickCheck();
@@ -41,8 +41,8 @@ namespace GitHubWebUserFinder.Tests.Models
 			Prop.ForAll(Generators.JsonGitHubUser.ToArbitrary(), json =>
 			{
 				dynamic user = json;
-				var expectedAlias = user.login.ToString();
-				var result = JsonConvert.DeserializeObject<GitHubUser>(json.ToString());
+				dynamic expectedAlias = user.login.ToString();
+				GitHubUser result = JsonConvert.DeserializeObject<GitHubUser>(json.ToString());
 
 				Assert.AreEqual(expectedAlias, result.Alias);
 			}).QuickCheck();
@@ -54,8 +54,8 @@ namespace GitHubWebUserFinder.Tests.Models
 			Prop.ForAll(Generators.JsonGitHubUser.ToArbitrary(), json =>
 			{
 				dynamic user = json;
-				var expectedAvatarUrl = user.avatar_url.ToString();
-				var result = JsonConvert.DeserializeObject<GitHubUser>(json.ToString());
+				dynamic expectedAvatarUrl = user.avatar_url.ToString();
+				GitHubUser result = JsonConvert.DeserializeObject<GitHubUser>(json.ToString());
 
 				Assert.AreEqual(expectedAvatarUrl, result.AvatarUrl);
 			}).QuickCheck();
