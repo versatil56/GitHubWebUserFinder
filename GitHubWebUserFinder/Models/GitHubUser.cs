@@ -16,6 +16,6 @@ namespace GitHubWebUserFinder.Models
 		public string Alias { get; set; }
 		[JsonProperty("avatar_url")]
 		public string AvatarUrl { get; set; }
-		public List<GitHubRepository> Repositories { get; set; }
+		public IEnumerable<GitHubRepository> Repositories { get; set; }
 	}
 }

@@ -19,7 +19,10 @@ namespace GitHubWebUserFinder.Services
 
 		public async Task<GitHubUser> FindUser(string name)
 		{
-			return await _connector.FindUser(name);
+			var searchResult = await _connector.FindUser(name);
+			searchResult.Repositories = searchResult.Repositories.OrderByDescending(_ => _.NumberOfStarGazers).Take(5);
+
+			return searchResult;
 		}
 	}
 }

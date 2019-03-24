@@ -17,7 +17,7 @@ namespace GitHubWebUserFinder.Tests.Models
 		[Test]
 		public void AGitJsonPayload_ContainingARepository_WillMapCorrectlyRepositoryName()
 		{
-			Prop.ForAll(Generators.GitHubRepository.ToArbitrary(), json =>
+			Prop.ForAll(Generators.JsonGitHubRepository.ToArbitrary(), json =>
 			{
 				dynamic user = json;
 				var expectedRepoName = user.name.ToString();
@@ -30,7 +30,7 @@ namespace GitHubWebUserFinder.Tests.Models
 		[Test]
 		public void AGitJsonPayload_ContainingARepository_WillMapCorrectlyRepositoryUrl()
 		{
-			Prop.ForAll(Generators.GitHubRepository.ToArbitrary(), json =>
+			Prop.ForAll(Generators.JsonGitHubRepository.ToArbitrary(), json =>
 			{
 				dynamic user = json;
 				var expectedRepoAddress = user.html_url.ToString();
@@ -43,7 +43,7 @@ namespace GitHubWebUserFinder.Tests.Models
 		[Test]
 		public void AGitJsonPayload_ContainingARepository_WillMapCorrectlyRepositoryStarGazerCount()
 		{
-			Prop.ForAll(Generators.GitHubRepository.ToArbitrary(), json =>
+			Prop.ForAll(Generators.JsonGitHubRepository.ToArbitrary(), json =>
 			{
 				dynamic user = json;
 				var expectedNumberOfStarGazers = Convert.ToInt16(user.stargazers_count);
@@ -55,7 +55,7 @@ namespace GitHubWebUserFinder.Tests.Models
 		[Test]
 		public void AGitJsonPayload_ContainingAnArrayOfRepositories_WillMapCorrectlyToAListOfRepositories()
 		{
-			Prop.ForAll(Generators.GitHubRepositories.ToArbitrary(), json =>
+			Prop.ForAll(Generators.JsonGitHubRepositories.ToArbitrary(), json =>
 			{
 				var result = JsonConvert.DeserializeObject<List<GitHubRepository>>(json.ToString());
 				Assert.AreEqual(result.Count, json.Count);

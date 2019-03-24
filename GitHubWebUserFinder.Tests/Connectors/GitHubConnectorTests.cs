@@ -41,7 +41,7 @@ namespace GitHubWebUserFinder.Tests.Services
 		[Test]
 		public async Task AGitHubConnector_WillReturnAGitHubUser_WhenSearchingSuccessfully()
 		{
-			var expectedUser = Generators.GitHubUser.Sample(50, 1).First();
+			var expectedUser = Generators.JsonGitHubUser.Sample(50, 1).First();
 			var expectedResponseFromGitHub = new HttpResponseMessage
 			{
 				StatusCode = HttpStatusCode.OK,
@@ -74,7 +74,7 @@ namespace GitHubWebUserFinder.Tests.Services
 				Content = new StringContent(@"{login:'test'}")
 			};
 
-			var expectedRepositories = Generators.GitHubRepositories.Sample(50,1).First();
+			var expectedRepositories = Generators.JsonGitHubRepositories.Sample(50,1).First();
 
 			var expectedRepositoriesResponse = new HttpResponseMessage
 			{
@@ -90,7 +90,7 @@ namespace GitHubWebUserFinder.Tests.Services
 			GitHubConnector connector = new GitHubConnector(appHttpClient.Object);
 			GitHubUser result = await connector.FindUser("test");
 
-			Assert.AreEqual(result.Repositories.Count, expectedRepositories.Count);
+			Assert.AreEqual(result.Repositories.ToList().Count, expectedRepositories.Count);
 		}
 	}
 }
