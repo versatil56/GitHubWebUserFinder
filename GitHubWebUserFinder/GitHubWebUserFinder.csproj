@@ -210,6 +210,8 @@
     <Content Include="Content\bootstrap-theme.css.map" />
     <None Include="packages.config" />
     <Content Include="Views\Result\GetResult.cshtml" />
+    <Content Include="Views\Result\NotFound.cshtml" />
+    <Content Include="Views\Result\NotAvailable.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
