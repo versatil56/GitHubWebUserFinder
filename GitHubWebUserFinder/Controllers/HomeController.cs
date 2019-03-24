@@ -16,6 +16,7 @@ namespace GitHubWebUserFinder.Controllers
 		}
 
 		[HttpPost]
+		[ValidateAntiForgeryToken]
 		public ActionResult Search(UserSearch userSearch)
 		{
 			if (ModelState.IsValid)

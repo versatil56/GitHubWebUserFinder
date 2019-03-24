@@ -11,6 +11,7 @@
 
 	@using (Html.BeginForm("Search", "Home", FormMethod.Post))
 	{
+		@Html.AntiForgeryToken()
 		@Html.TextBoxFor(model => model.Criteria)
 		@Html.ValidationMessageFor(model => model.Criteria)
 		<button type="submit">Search</button>
