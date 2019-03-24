@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System.Collections.Generic;
+using System.Web.Mvc;
 using GitHubWebUserFinder.Controllers;
 using GitHubWebUserFinder.Models;
 using GitHubWebUserFinder.Services;
@@ -16,7 +17,7 @@ namespace GitHubWebUserFinder.Tests.Controllers
 		public async Task ShowResult_WhenCalled_WillReturn_ASearchResult()
 		{
 			Mock<IGitHubConnector> connector = new Mock<IGitHubConnector>();
-			connector.Setup(c => c.FindUser(It.IsAny<string>())).Returns(Task.FromResult(new GitHubUser()));
+			connector.Setup(c => c.FindUser(It.IsAny<string>())).Returns(Task.FromResult(new GitHubUser{Repositories = new List<GitHubRepository>()}));
 
 			ResultController controller = new ResultController(new GitHubSearchService(connector.Object));
 			ViewResult result = (ViewResult)await controller.GetResult("test");
@@ -31,7 +32,8 @@ namespace GitHubWebUserFinder.Tests.Controllers
 			GitHubUser expectedResult = new GitHubUser
 			{
 				Alias = "My Test",
-				FullName = "Juan Antonio"
+				FullName = "Juan Antonio",
+				Repositories = new List<GitHubRepository>()
 			};
 
 			connector.Setup(c => c.FindUser(It.IsAny<string>())).Returns(Task.FromResult(expectedResult));

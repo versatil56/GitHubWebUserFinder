@@ -2,6 +2,8 @@
 using System.Linq;
 using FsCheck;
 using NUnit.Framework;
+using GitHubWebUserFinder.Models;
+using System.Collections.Generic;
 
 namespace GitHubWebUserFinder.Tests.Models
 {
@@ -31,7 +33,7 @@ namespace GitHubWebUserFinder.Tests.Models
 			return Gen.ArrayOf(RandomNumber(5, 100).Sample(20, 1).First(), Gen.Elements($"{_alphabet}{_alphabet.ToUpper()}{_numbers}{_allowedCharacters}".ToCharArray())).ToArbitrary();
 		}
 
-		public static Gen<JObject> GitHubUser = from name in Letters().Generator
+		public static Gen<JObject> JsonGitHubUser = from name in Letters().Generator
 			from userLocation in Alphanumeric().Generator
 			from alias in Alphanumeric().Generator
 			from avatarurl in NotEmptyStringWithAllowedCharacters().Generator
@@ -43,7 +45,19 @@ namespace GitHubWebUserFinder.Tests.Models
 				avatar_url = new string(avatarurl)
 			});
 
-		public static Gen<JObject> GitHubRepository = from name in Alphanumeric().Generator
+		public static Gen<GitHubUser> GitHubUser = from name in Letters().Generator
+			from userLocation in Alphanumeric().Generator
+			from alias in Alphanumeric().Generator
+			from avatarurl in NotEmptyStringWithAllowedCharacters().Generator
+			select new GitHubUser
+			{
+				FullName = new string(name),
+				CurrentLocation = new string(userLocation),
+				Alias = new string(alias),
+				AvatarUrl = new string(avatarurl)
+			};
+
+		public static Gen<JObject> JsonGitHubRepository = from name in Alphanumeric().Generator
 			from repoUrl in NotEmptyStringWithAllowedCharacters().Generator
 			from stars in RandomNumber(0,100)
 			select JObject.FromObject(new
@@ -53,7 +67,20 @@ namespace GitHubWebUserFinder.Tests.Models
 				stargazers_count = stars
 			});
 
-		public static Gen<JArray> GitHubRepositories = from repos in Gen.ArrayOf(GitHubRepository)
+		public static Gen<GitHubRepository> GitHubRepository = from name in Alphanumeric().Generator
+			from repoUrl in NotEmptyStringWithAllowedCharacters().Generator
+			from stars in RandomNumber(0, 100)
+			select new GitHubRepository
+			{
+				Name = new string(name),
+				Url = new string(repoUrl),
+				NumberOfStarGazers = stars
+			};
+
+		public static Gen<JArray> JsonGitHubRepositories = from repos in Gen.ArrayOf(JsonGitHubRepository)
 			select new JArray(repos);
+
+		public static Gen<List<GitHubRepository>> GitHubRepositories = from repos in Gen.ListOf(GitHubRepository)
+			select repos.ToList();
 	}
 }

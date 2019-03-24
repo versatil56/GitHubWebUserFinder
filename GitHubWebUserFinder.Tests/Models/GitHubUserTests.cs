@@ -12,7 +12,7 @@ namespace GitHubWebUserFinder.Tests.Models
 		[Test]
 		public void AGitJsonPayload_ContainingAGitHubUser_WillMapCorrectlyToFullName()
 		{
-			Prop.ForAll(Generators.GitHubUser.ToArbitrary(), json =>
+			Prop.ForAll(Generators.JsonGitHubUser.ToArbitrary(), json =>
 			{
 				dynamic user = json;
 				var expectedFullName = user.name.ToString();
@@ -25,7 +25,7 @@ namespace GitHubWebUserFinder.Tests.Models
 		[Test]
 		public void AGitJsonPayload_ContainingAGitHubUser_WillMapCorrectlyToCurrentLocation()
 		{
-			Prop.ForAll(Generators.GitHubUser.ToArbitrary(), json =>
+			Prop.ForAll(Generators.JsonGitHubUser.ToArbitrary(), json =>
 			{
 				dynamic user = json;
 				var expectedLocation = user.location.ToString();
@@ -38,7 +38,7 @@ namespace GitHubWebUserFinder.Tests.Models
 		[Test]
 		public void AGitJsonPayload_ContainingAGitHubUser_WillMapCorrectlyToAlias()
 		{
-			Prop.ForAll(Generators.GitHubUser.ToArbitrary(), json =>
+			Prop.ForAll(Generators.JsonGitHubUser.ToArbitrary(), json =>
 			{
 				dynamic user = json;
 				var expectedAlias = user.login.ToString();
@@ -51,7 +51,7 @@ namespace GitHubWebUserFinder.Tests.Models
 		[Test]
 		public void AGitJsonPayload_ContainingAGitHubUser_WillMapCorrectlyToAvatarUrl()
 		{
-			Prop.ForAll(Generators.GitHubUser.ToArbitrary(), json =>
+			Prop.ForAll(Generators.JsonGitHubUser.ToArbitrary(), json =>
 			{
 				dynamic user = json;
 				var expectedAvatarUrl = user.avatar_url.ToString();
