@@ -121,6 +121,7 @@
     <Compile Include="Models\Generators.cs" />
     <Compile Include="Models\GitHubRepositoryTests.cs" />
     <Compile Include="Models\GitHubUserTests.cs" />
+    <Compile Include="Models\UserSearchTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\HomeControllerTest.cs" />
     <Compile Include="Services\GitHubSearchServiceTests.cs" />
