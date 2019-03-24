@@ -4,21 +4,24 @@
 
 @model GitHubWebUserFinder.Models.SearchResult
 
-
-<div class="jumbotron">
-
-	@Model.User.FullName
-	@Model.User.Alias
-	@Model.User.CurrentLocation
-	@Model.User.AvatarUrl
-	
-	@{
-		foreach (var repository in Model.User.Repositories)
-		{
-			@repository.Name
-			@repository.NumberOfStarGazers
-			@repository.Url
+<div class="row">
+	<div class="col-md-4">
+		<h2>User Details</h2>
+		<p><img width="80" src="@Model.User.AvatarUrl" /></p>
+		<p><strong>Name:</strong> @Model.User.FullName</p>
+		<p><strong>Alias:</strong> @Model.User.Alias</p>
+		<p><strong>Location:</strong> @Model.User.CurrentLocation</p>
+	</div>
+	<div class="col-md-8">
+		<h2>Repositories</h2>
+		@{
+			foreach (var repository in Model.User.Repositories)
+			{   <div class="col-sm-4" style="background-color: lightgray; margin: 2px;border-radius: 10px; padding: 2px;">
+					<p><strong>Name:</strong> @repository.Name</p>
+					<p><strong>Stars:</strong> @repository.NumberOfStarGazers</p>
+				    <p><a class="btn btn-default" href="@repository.Url">Check it out!</a></p>
+			    </div>
+			}
 		}
-	}
-
+	</div>
 </div>
