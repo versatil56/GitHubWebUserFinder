@@ -156,6 +156,7 @@
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="Connectors\AppHttpClient.cs" />
     <Compile Include="Connectors\GitHubConnector.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Exceptions\GitHubUserNotFoundException.cs" />
     <Compile Include="Connectors\HttpClientFactory.cs" />
     <Compile Include="Connectors\IAppHttpClient.cs" />
@@ -166,6 +167,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\ApplicationError.cs" />
     <Compile Include="Models\GitHubRepository.cs" />
     <Compile Include="Models\GitHubUser.cs" />
     <Compile Include="Models\SearchResult.cs" />
@@ -192,7 +194,6 @@
     </Content>
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
   </ItemGroup>
@@ -210,8 +211,9 @@
     <Content Include="Content\bootstrap-theme.css.map" />
     <None Include="packages.config" />
     <Content Include="Views\Result\GetResult.cshtml" />
-    <Content Include="Views\Result\NotFound.cshtml" />
-    <Content Include="Views\Result\NotAvailable.cshtml" />
+    <Content Include="Views\Error\NotFound.cshtml" />
+    <Content Include="Views\Error\NotAvailable.cshtml" />
+    <Content Include="Views\Error\SomethingWentWrong.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

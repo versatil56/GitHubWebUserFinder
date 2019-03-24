@@ -64,7 +64,7 @@ namespace GitHubWebUserFinder.Tests.Controllers
 			RedirectToRouteResult result = (RedirectToRouteResult) exceptionContext.Result;
 
 			Assert.That(result.RouteValues.ContainsValue("NotFound"));
-			Assert.That(result.RouteValues.ContainsValue("Result"));
+			Assert.That(result.RouteValues.ContainsValue("Error"));
 		}
 
 		[Test]
@@ -84,7 +84,7 @@ namespace GitHubWebUserFinder.Tests.Controllers
 			RedirectToRouteResult result = (RedirectToRouteResult)exceptionContext.Result;
 
 			Assert.That(result.RouteValues.ContainsValue("NotAvailable"));
-			Assert.That(result.RouteValues.ContainsValue("Result"));
+			Assert.That(result.RouteValues.ContainsValue("Error"));
 		}
 	}
 }
