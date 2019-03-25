@@ -15,7 +15,7 @@ namespace GitHubWebUserFinder.Tests.Models
 		{
 			UserSearch testSearch = new UserSearch();
 
-			var results = ValidateModel(testSearch);
+			IList<ValidationResult> results = ValidateModel(testSearch);
 
 			Assert.AreEqual(1, results.Count);
 			Assert.AreEqual("The Criteria field is required.", results.First().ErrorMessage);
@@ -29,7 +29,7 @@ namespace GitHubWebUserFinder.Tests.Models
 				Criteria = "john.doe"
 			};
 
-			var results = ValidateModel(testSearch);
+			IList<ValidationResult> results = ValidateModel(testSearch);
 
 			Assert.AreEqual(1, results.Count);
 			Assert.AreEqual("Search may only contain alphanumeric characters or single hyphens, and cannot begin or end with a hyphen", results.First().ErrorMessage);
@@ -43,7 +43,7 @@ namespace GitHubWebUserFinder.Tests.Models
 				Criteria = "versatil56"
 			};
 
-			var results = ValidateModel(testSearch);
+			IList<ValidationResult> results = ValidateModel(testSearch);
 
 			Assert.AreEqual(0,results.Count);
 		}
