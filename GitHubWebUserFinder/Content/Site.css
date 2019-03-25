@@ -22,3 +22,14 @@ select,
 textarea {
     max-width: 280px;
 }
+
+span.field-validation-error{
+	color:red;
+}
+
+.repository-container {
+	background-color: lightgray;
+	margin: 2px;
+	border-radius: 10px;
+	padding: 2px;
+}
